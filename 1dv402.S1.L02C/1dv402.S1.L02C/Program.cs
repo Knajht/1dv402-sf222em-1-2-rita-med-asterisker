@@ -15,10 +15,8 @@ namespace _1dv402.S1.L02A
                 byte cols = ReadOddByte();
                 RenderTriangle(cols);
 
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\nTryck tangent för ny beräkning - Esc avslutar");
-                Console.ResetColor();
-            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+
+            } while (IsContinuing() == true);
         }
         static byte ReadOddByte()
         {
@@ -85,6 +83,13 @@ namespace _1dv402.S1.L02A
                 Console.WriteLine();
             }
             Console.WriteLine("KLAAR!");
+        }
+        static bool IsContinuing()
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\nTryck tangent för ny beräkning - Esc avslutar");
+            Console.ResetColor();
+            return Console.ReadKey(true).Key != ConsoleKey.Escape;
         }
 //Denna forloop producerar i minskande ordning, används till steg C?
                 ////int iteratorAsterisk = 0;
