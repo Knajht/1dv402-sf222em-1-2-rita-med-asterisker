@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Strings = _1dv402.S1.L02C.Properties.Strings;
 
 namespace _1dv402.S1.L02A
 {
@@ -10,15 +11,17 @@ namespace _1dv402.S1.L02A
     {
         static void Main(string[] args)
         {
+            const byte maxValue = 41;
+
             do
             {
-                byte cols = ReadOddByte();
-                RenderTriangle(cols);
+                byte cols = ReadOddByte(Strings.DiamondSize_Prompt, maxValue);
+                RenderDiamond(cols);
 
 
             } while (IsContinuing() == true);
         }
-        static byte ReadOddByte()
+        static byte ReadOddByte(string prompt = null, byte maxValue = 255)
         {
             byte cols = 0;
             string input = null;
@@ -26,21 +29,21 @@ namespace _1dv402.S1.L02A
 
             do
             {
-                Console.Write("Ange det udda antalet asterisker (max 79) i triangelns bas: ");
+                Console.Write(prompt, maxValue);
                 try
                 {
                     input = Console.ReadLine();
                     cols = Byte.Parse(input);
-                    if (cols % 2 == 0)
+                    if (cols < 1 || cols > 79)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("Det angivna värdet är inte udda!");
+                        Console.WriteLine(String.Format(Strings.OutOfRange_Error, cols));
                         Console.ResetColor();
                     }
-                    else if (cols < 1 || cols > 79)
+                    else if (cols % 2 == 0)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine(String.Format("Det angivna värdet '{0}' ligger inte mellan 1-79!", cols));
+                        Console.WriteLine(Strings.NotOdd_Error);
                         Console.ResetColor();
                     }
                     else
@@ -49,23 +52,17 @@ namespace _1dv402.S1.L02A
                     }
 
                 }
-                catch (ArgumentOutOfRangeException outOfRange)
-                {
-                    
-                    Console.WriteLine(outOfRange.Message);
-                    
-                }
                 catch
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("'{0}' kan inte tolkas som en korrekt inmatning!", input);
+                    Console.WriteLine(Strings.IncorrectInput_Error, input);
                     Console.ResetColor();
                 }
             } while (startOver == true);
 
             return cols;
         }
-        static void RenderTriangle(byte cols)
+        static void RenderDiamond(byte cols)
         {
             int iterator = 1;
 
@@ -82,12 +79,11 @@ namespace _1dv402.S1.L02A
                 iterator = iterator + 2;
                 Console.WriteLine();
             }
-            Console.WriteLine("KLAAR!");
         }
         static bool IsContinuing()
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("\nTryck tangent för ny beräkning - Esc avslutar");
+            Console.WriteLine(Strings.Continue_Prompt);
             Console.ResetColor();
             return Console.ReadKey(true).Key != ConsoleKey.Escape;
         }
