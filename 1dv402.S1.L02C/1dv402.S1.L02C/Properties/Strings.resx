@@ -131,6 +131,6 @@ Tryck tangent för ny beräkning - Esc avslutar</value>
     <value>Det angivna värdet är inte udda!</value>
   </data>
   <data name="OutOfRange_Error" xml:space="preserve">
-    <value>Det angivna värdet '{0}' ligger inte mellan 1-79!</value>
+    <value>Det angivna värdet '{0}' ligger inte mellan 1-{1}!</value>
   </data>
 </root>

@@ -11,19 +11,17 @@ namespace _1dv402.S1.L02A
     {
         static void Main(string[] args)
         {
-            const byte maxValue = 41;
+            const byte maxValue = 79;
 
             do
             {
-                byte cols = ReadOddByte(Strings.DiamondSize_Prompt, maxValue);
-                RenderDiamond(cols);
-
-
+                byte maxCount = ReadOddByte(Strings.DiamondSize_Prompt, maxValue);
+                RenderDiamond(maxCount);
             } while (IsContinuing() == true);
         }
         static byte ReadOddByte(string prompt = null, byte maxValue = 255)
         {
-            byte cols = 0;
+            int cols = 0;
             string input = null;
             bool startOver = true;
 
@@ -33,11 +31,11 @@ namespace _1dv402.S1.L02A
                 try
                 {
                     input = Console.ReadLine();
-                    cols = Byte.Parse(input);
-                    if (cols < 1 || cols > 79)
+                    cols = int.Parse(input);
+                    if (cols < 1 || cols > maxValue)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine(String.Format(Strings.OutOfRange_Error, cols));
+                        Console.WriteLine(String.Format(Strings.OutOfRange_Error, cols, maxValue));
                         Console.ResetColor();
                     }
                     else if (cols % 2 == 0)
@@ -50,34 +48,57 @@ namespace _1dv402.S1.L02A
                     {
                         startOver = false;
                     }
-
                 }
                 catch
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine(Strings.IncorrectInput_Error, input);
                     Console.ResetColor();
                 }
             } while (startOver == true);
 
-            return cols;
+            return (byte)cols;
         }
-        static void RenderDiamond(byte cols)
+        static void RenderDiamond(byte maxCount)
         {
-            int iterator = 1;
-
-            for (int k = (cols / 2) + 1; k > 0; k--)
+            int asteriskCount = 1;
+            
+            for (int i = 0; i < maxCount; i++)
             {
-                for (int j = iterator; j < cols; j = j + 2)
+//Skrev denna metod för att det kändes som det lättaste sättet. Eftersom det står i uppgiftsbeskrivningen att man ska använda "for"-satser finns en sådan nedanför.
+                //if(i < (maxCount + 1) / 2)
+                //{
+                //    RenderRow(maxCount, asteriskCount);
+                //}
+                //else
+                //{
+                //    RenderRow(maxCount, (maxCount - (asteriskCount % maxCount)));
+                //}
+                //asteriskCount = asteriskCount + 2;
+                //Console.WriteLine();
+
+//Första For-loop-versionen. Känns klumpig men hittar tyvärr inget smartare sätt.
+                for (int j = i; j == i && j < (maxCount + 1) / 2; j++)
                 {
-                    Console.Write(" ");
+                    RenderRow(maxCount, asteriskCount);
                 }
-                for (int i = 1; i <= iterator; i++)
+                for (int j = i; j == i && j < maxCount && j >= (maxCount + 1) / 2; j++)
                 {
-                    Console.Write("*");
+                    RenderRow(maxCount, (maxCount - (asteriskCount % maxCount)));
                 }
-                iterator = iterator + 2;
+                asteriskCount = asteriskCount + 2;
                 Console.WriteLine();
+            }
+        }
+        static void RenderRow(int maxCount, int asteriskCount)
+        {
+            for (int i = 0; i < (maxCount / 2) - (asteriskCount / 2); i++)
+			{
+                Console.Write(" ");
+			}
+            for (int i = 0; i < asteriskCount; i++)
+            {
+                Console.Write("*");
             }
         }
         static bool IsContinuing()
@@ -87,13 +108,5 @@ namespace _1dv402.S1.L02A
             Console.ResetColor();
             return Console.ReadKey(true).Key != ConsoleKey.Escape;
         }
-//Denna forloop producerar i minskande ordning, används till steg C?
-                ////int iteratorAsterisk = 0;
-                ////for (int j = iteratorAsterisk; j <= cols; j = j + 2)
-                ////{
-                    
-                ////}
-                ////iteratorAsterisk = iteratorAsterisk + 2;
-                ////Console.WriteLine();
     }
 }

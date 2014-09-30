@@ -98,7 +98,7 @@ namespace _1dv402.S1.L02C.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Det angivna värdet &apos;{0}&apos; ligger inte mellan 1-79!.
+        ///   Looks up a localized string similar to Det angivna värdet &apos;{0}&apos; ligger inte mellan 1-{1}!.
         /// </summary>
         internal static string OutOfRange_Error {
             get {
